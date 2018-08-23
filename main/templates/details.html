@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script>
+        function calc() {
+            var days = Number(document.getElementById('days').value);
+            var time = {{ time_hours }};
+
+            document.getElementById('result').innerHTML = "You will need to read for <b>"+Math.round(time*60/days)+" minutes</b> every day to finish this book in <b>"+days+" days!</b>";
+        }
+    </script>
+
+    <style>
+        .bg-1 {
+              background-color: #1abc9c; /* Green */
+              color: #ffffff;
+          }
+          .bg-2 {
+              background-color: #474e5d; /* Dark Blue */
+              color: #ffffff;
+          }
+          .bg-3 {
+              background-color: #ffffff; /* White */
+              color: #555555;
+          }
+          .bg-4 {
+              background-color: #2f2f2f; /* Black Gray */
+              color: #fff;
+          }
+          .container-fluid {
+              padding-top: 70px;
+              padding-bottom: 70px;
+          }
+
+          @media (min-width: 576px) {
+          .card-columns {
+          column-count: 3;
+
+          }
+          }
+    </style>
+
+    {% load static %}
+    <title>Book Length</title>
+</head>
+
+<body>
+    {% block content %}
+
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top">
+        <div class="container col-md-10">
+            <a class="navbar-brand" href="/"> Book Length</a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.github.com/vimalrj7/booklength">GitHub</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container-fluid bg-2">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="get">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control input-lg justify-content-center" name="query" placeholder="Search for a book!">
+                        <span class="input-group-btn">
+        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+      </span>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img class="float-right" style="padding: 5px;" src="{% static 'images/google.png' %}" alt="Powered By Google">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid bg-3" <div class="row justify-content-end">
+        <div class="container col-md-8">
+            <div class="card-columns">
+                <div class="card">
+                    <div class="card-header">
+                        Book
+                    </div>
+                    <span class="border border-0"><img class='card-img-top' src="{{ book.imageLinks.small }}" class="img-fluid" alt=""></span>
+                    <div class="card-body">
+                        <h4 class="card-title ">
+                            </u>{{ book.title }}</u>
+                        </h4>
+                        <h6 class="card-subtitle">{{ book.authors }}</p>
+                            <a href="{{ book.infoLink }}">
+                    <input type="submit" class="btn btn-primary" value="Get it on Google Books" /></a>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
+                    <div class="card-header">
+                        Details
+                    </div>
+                    <div class="card-body">
+                        <p> Genre:<b> {{ book.categories.0 }}</b> </p>
+                        <p> Pages:<b> {{ book.pageCount }}</b> </p>
+                        <p> Words:<b> {{ words}}</b></p>
+                        <p> Average Reading Speed: <b>250WPM</b></p>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        How Long Would It Take You To Read This?
+                    </div>
+                    <div class="card-body">
+
+                        <p> It would take you <b>{{ time }}</b> to finish this book! </p>
+                        <p><i> How many days do you want to finish this in?</i></p>
+                        <div style="padding-bottom: 13px;" id="result"></div>
+                        <div class="input-group">
+                            <input class="form-control" id="days">
+                            <span class="input-group-btn">
+          <button id="go" onclick="calc()" class="btn btn-primary">Calculate!</button>
+          </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Description
+                    </div>
+                    <div class="card-body">
+                        {{book.description | safe}}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <footer class="container-fluid bg-4" style="padding-bottom: 40px; padding-top: 40px">
+        <div class="row justify-content-center">
+
+            <p> booklength.tk | A project by Vimal Raj</p>
+        </div>
+    </footer>
+
+    {% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+</html>
